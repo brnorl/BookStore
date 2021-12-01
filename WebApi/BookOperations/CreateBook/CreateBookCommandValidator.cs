@@ -1,0 +1,18 @@
+using System;
+using FluentValidation;
+
+namespace WebApi.BookOperations.CreateBook
+{
+    public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
+    {
+        public CreateBookCommandValidator()
+        {
+            RuleFor(command => command.Model.GenreId).GreaterThan(0);//GenreId > 0
+            RuleFor(command => command.Model.PageCount).GreaterThan(0);
+            //PublihsDate şu anki zamandan daha küçük olmalı.
+            RuleFor(command => command.Model.PublishDate.Date).NotEmpty().LessThan(DateTime.Now.Date);
+            RuleFor(command => command.Model.Title).NotEmpty().MinimumLength(4);
+            //Title boş olamaz,minlength=4
+        }
+    }
+}
